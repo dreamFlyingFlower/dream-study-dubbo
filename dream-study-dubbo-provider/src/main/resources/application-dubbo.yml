@@ -1,0 +1,38 @@
+dubbo:
+  application:
+    # dubbo服务名,用于区分dubbo服务
+    name: ${spring.application.name}
+  # 多个注册中心时填写,test看随意
+  #registries:
+    #test:
+      #id: test1
+  # 多个协议时使用,test随意填写
+  #protocols:
+    #test: 
+      #name: rmi
+  registry:
+    id: test2
+    # 服务分组
+    group: test
+    simplified: true
+    # 是否向此注册中心注册服务,如果设为false,将只订阅,不注册
+    #register: true
+    # 是否在启动时检测注册中心
+    check: false
+    # 使用multicast广播注册中心暴露服务地址
+    #address: multicast://224.5.6.7:1234
+    # 使用zookeeper注册中心暴露服务地址,地址可以多个,以逗号隔开
+    address: zookeeper://192.168.1.146:2181
+    # 指定连接的客户端
+    #address: zookeeper://192.168.1.146:2181?client=curator
+    # 是否向此注册中心订阅服务,如果设为false,将只注册,不订阅
+    #subscribe: false
+    # timeout注册中心请求超时时间(毫秒)
+    #timeout: 5000
+    # 集群容错:failover:失败自动切换
+    cluster: failover
+  protocol:
+    # 协议类型,通常使用dubbo,多个协议用逗号隔开
+    name: dubbo
+    host: localhost
+    port: 20880
