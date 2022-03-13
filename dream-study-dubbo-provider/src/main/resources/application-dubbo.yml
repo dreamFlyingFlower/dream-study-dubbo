@@ -17,7 +17,7 @@ dubbo:
     simplified: true
     # 是否向此注册中心注册服务,如果设为false,将只订阅,不注册
     #register: true
-    # 是否在启动时检测注册中心
+    # 是否在启动时检测注册中心,注册订阅失败时报错
     check: false
     # 使用multicast广播注册中心暴露服务地址
     #address: multicast://224.5.6.7:1234
@@ -31,8 +31,36 @@ dubbo:
     #timeout: 5000
     # 集群容错:failover:失败自动切换
     cluster: failover
+    # 是否只订阅服务.false只订阅不注册,即只从注册中心获取服务,但不注册到注册中心,一般用于直连测试
+    register: true
+    # 相对于register,只注册,不订阅.使用场景类似于集群环境时某个服务器没有部署特定的服务
+    subscribe: false
   protocol:
     # 协议类型,通常使用dubbo,多个协议用逗号隔开
     name: dubbo
     host: localhost
     port: 20880
+    # 事件处理类型,默认all,详见org.apache.dubbo.remoting.Dispatcher实现类
+    dispatcher: all
+    # 线程池类型,默认fixed
+    threadpool: fixed
+    # 核心线程数
+    threads: 100
+    # 服务方可接收最大连接数
+    accepts: 1000
+    # 线程池队列大小,建议不设置
+    queues: 500
+    # IO线程池大小,固定大小,通常为CPU核心数+1
+    iothreads: 2
+  provider: 
+    # 服务提供方负载均衡策略.详见: org.apache.dubbo.common.constants.ClusterRules
+    loadbalance: failover
+    # 负载均衡重试次数,默认2次
+    retries: 2
+    dispatcher: all
+    threadpool: fix
+  consumer: 
+    # 关闭所有服务的启动时检查,没有提供者时报错
+    check: false
+    # 消费者负载均衡策略,和服务提供方不一样.默认随机,详见:org.apache.dubbo.common.constants.LoadbalanceRules
+    loadbalance: random
